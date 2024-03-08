@@ -1,0 +1,141 @@
+Program.Sub.ScreenSU.Start
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+'Coded by: Melinda Keyes
+'Project Start Date: 10/4/2011
+'Hooks:
+'  16090 - BI Pre-Process
+'Notes:
+'  Module Shop Floor Control > Reports > Bar Code Work Order (Extended):
+'  When the user hits the OK button, skip printing the WO with only Material  and Laser sequences.
+'  If there are WO with additional sequences, along with Material and Laser, those WO have to be Printed.
+'  If there are no Work orders in the selected range with sequences other than the Material and Laser, then cancel the Print.
+
+'  Requires updated BJ020LZG and GHOOK
+'  Tables are BI_BAR_HEAD, BI_BAR_DETAIL
+'  Report 1811
+
+F.Intrinsic.Control.SetErrorHandler("Main_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sQuery.Declare(String)
+V.Local.sJob.Declare(String)
+V.Local.sSuffix.Declare(String)
+V.Local.sLMO.Declare(String)
+V.Local.sWC.Declare(String)
+V.Local.sOmit.Declare(String)
+V.Local.sTemp.Declare(String)
+V.Local.sTemp2.Declare(String)
+V.Local.iRec.Declare(Long)
+V.Local.bPrint.Declare(Boolean)
+V.Local.bMatched.Declare(Boolean)
+
+F.Intrinsic.Control.If(V.Caller.Hook,=,16090)
+	F.Intrinsic.Control.If(V.Passed.009001,=,"001811")
+		F.ODBC.Connection!conX.OpenConnection(V.Ambient.PDSN,V.Ambient.PUser,V.Ambient.PPass)
+		F.Intrinsic.String.Build("SELECT * FROM BI_BAR_HEAD WHERE TERMINAL = '{0}' ORDER BY KEY_SEQ",V.Caller.Terminal,V.Local.sQuery)
+		F.ODBC.Connection!conX.OpenRecordsetRO("rst",V.Local.sQuery)
+		'loop through each work order to be printed
+		F.Intrinsic.Control.DoUntil(V.ODBC.conX!rst.EOF,=,True)
+			V.Local.bPrint.Set(False)
+			V.Local.sJob.Set(V.ODBC.conX!rst.FieldVal!JOB)
+			V.Local.sSuffix.Set(V.ODBC.conX!rst.FieldVal!SUFFIX)
+			F.Intrinsic.String.Build("SELECT * FROM BI_BAR_DETAIL WHERE JOB = '{0}' AND SUFFIX = '{1}' AND TERMINAL = '{2}' AND ROUTER_SEQ != '995000' AND ROUTER_SEQ != '996000' AND ROUTER_SEQ != '997000' ORDER BY KEY_SEQ",V.Local.sJob.PSQLFriendly,V.Local.sSuffix.PSQLFriendly,V.Caller.Terminal,V.Local.sQuery)
+			F.ODBC.Connection!conX.OpenRecordsetRO("rstDetail",V.Local.sQuery)
+			'loop through each sequence of the work order
+			F.Intrinsic.Control.DoUntil(V.ODBC.conX!rstDetail.EOF,=,True)
+				V.Local.bMatched.Set(False)
+				V.Local.sLMO.Set(V.ODBC.conX!rstDetail.FieldValTrim!LMO)
+				V.Local.sWC.Set(V.ODBC.conX!rstDetail.FieldValTrim!WC_NAME)
+				F.Intrinsic.String.UCase(V.Local.sWC,V.Local.sWC)
+				'if the work order has any sequences that are NOT material or labor (with workcenter as LASER) print the work order
+				F.Intrinsic.Control.If(V.Local.sLMO,<>,"M")
+				F.Intrinsic.Control.AndIf(V.Local.sLMO,<>,"C")
+					F.Intrinsic.Control.If(V.Local.sLMO,=,"L")
+						'check for an individual workcenter match
+						F.ODBC.Connection!conX.OpenRecordsetRO("rstWCs","Select * from ATG_3793_Noprint_Wcs ORDER BY WC_ID")
+						F.Intrinsic.Control.DoUntil(V.ODBC.conX!rstWCs.EOF,=,True)
+							F.Intrinsic.String.UCase(V.ODBC.conX!rstWCs.FieldValTrim!WC_NAME,V.Local.sTemp)
+							F.Intrinsic.Control.If(V.Local.sWC,=,V.Local.sTemp)
+								V.Local.bMatched.Set(True)
+								F.Intrinsic.Control.ExitDo
+							F.Intrinsic.Control.EndIf
+							F.ODBC.conX!rstWCs.MoveNext
+						F.Intrinsic.Control.Loop
+						F.ODBC.conX!rstWCs.Close
+						'if all workcenters of a workgroup are present, check for a match against the workgroup description
+						F.ODBC.Connection!conX.OpenRecordsetRO("rstWCs","Select distinct DESCRIPTION from ATG_3793_Noprint_Wcs WHERE FULL_WG_INCL = 1 ORDER BY DESCRIPTION")
+						F.Intrinsic.Control.DoUntil(V.ODBC.conX!rstWCs.EOF,=,True)
+							F.Intrinsic.String.UCase(V.ODBC.conX!rstWCs.FieldValTrim!DESCRIPTION,V.Local.sTemp)
+							F.Intrinsic.Control.If(V.Local.sWC,=,V.Local.sTemp)
+								V.Local.bMatched.Set(True)
+								F.Intrinsic.Control.ExitDo
+							F.Intrinsic.Control.EndIf
+							F.ODBC.conX!rstWCs.MoveNext
+						F.Intrinsic.Control.Loop
+						F.ODBC.conX!rstWCs.Close
+						'if no match was found, print the work order
+						F.Intrinsic.Control.If(V.Local.bMatched,=,False)
+							V.Local.bPrint.Set(True)
+						F.Intrinsic.Control.EndIf
+					F.Intrinsic.Control.Else
+						V.Local.bPrint.Set(True)
+					F.Intrinsic.Control.EndIf
+				F.Intrinsic.Control.EndIf
+				F.ODBC.conX!rstDetail.MoveNext
+			F.Intrinsic.Control.Loop
+			F.ODBC.conX!rstDetail.Close
+			'if the work order only has lines for material and labor at the LASER workstation, delete the records from the BI tables
+			F.Intrinsic.Control.If(V.Local.bPrint,=,False)
+				F.Intrinsic.String.Build("DELETE FROM BI_BAR_HEAD WHERE JOB = '{0}' AND SUFFIX = '{1}' AND TERMINAL = '{2}'",V.Local.sJob.PSQLFriendly,V.Local.sSuffix.PSQLFriendly,V.Caller.Terminal,V.Local.sQuery)
+				F.ODBC.Connection!conX.Execute(V.Local.sQuery)
+				F.Intrinsic.String.Build("DELETE FROM BI_BAR_DETAIL WHERE JOB = '{0}' AND SUFFIX = '{1}' AND TERMINAL = '{2}'",V.Local.sJob.PSQLFriendly,V.Local.sSuffix.PSQLFriendly,V.Caller.Terminal,V.Local.sQuery)
+				F.ODBC.Connection!conX.Execute(V.Local.sQuery)
+				F.Intrinsic.String.Concat(V.Local.sOmit," ",V.Local.sJob,"-",V.Local.sSuffix,V.Local.sOmit)
+			F.Intrinsic.Control.EndIf
+			F.ODBC.conX!rst.MoveNext
+		F.Intrinsic.Control.Loop
+		F.ODBC.conX!rst.Close
+
+	'notifiy the user if work orders were not printed
+	F.Intrinsic.Control.if(V.Local.sOmit,<>,"")
+		F.Intrinsic.String.Build("The following work orders were ommitted:{0}",V.Local.sOmit,V.Local.sOmit)
+		F.Intrinsic.UI.Msgbox(V.Local.sOmit)
+	F.Intrinsic.Control.EndIf
+
+	'if there are no records left to print, cancel the printing
+	F.Intrinsic.String.Build("SELECT * FROM BI_BAR_HEAD WHERE TERMINAL = '{0}' ORDER BY KEY_SEQ",V.Caller.Terminal,V.Local.sQuery)
+	F.ODBC.Connection!conX.OpenRecordsetRO("rst",V.Local.sQuery)
+	F.Intrinsic.Control.If(V.ODBC.conX!rst.EOF,=,True)
+		F.Intrinsic.UI.Msgbox("No work orders were printed.")
+		V.Passed.CANCEL.Set(1)
+	F.Intrinsic.Control.EndIf
+	F.ODBC.conX!rst.Close
+
+	F.ODBC.Connection!conX.Close
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Main_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_3793_SELECTIVE_WO_PRINTING.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.End
+
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.Main.End
+
+Program.Sub.Comments.Start
+${$0$}$ATG_Selective_WO_Printing_Updated$}$CHANDANA$}$4/15/2016$}$False
+${$1$}$$}$$}$0$}$16090$}$BSI005-PRE-PROCESS-HOOK$}$4/15/2016 8:27:50 AM$}$(Program: BSI005; Screen: )
+
+Program.Sub.Comments.End
+
