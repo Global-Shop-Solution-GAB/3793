@@ -1,0 +1,454 @@
+Program.Sub.ScreenSU.Start
+gui.F_WO_Printing_Maint..create
+gui.F_WO_Printing_Maint..caption("Selective Work Order Printing Maintenance")
+gui.F_WO_Printing_Maint..size(11370,6435)
+gui.F_WO_Printing_Maint..position(0,0)
+gui.F_WO_Printing_Maint..event(unload,f_wo_printing_maint_unload)
+gui.F_WO_Printing_Maint..alwaysontop(False)
+gui.F_WO_Printing_Maint..fontname("Arial")
+gui.F_WO_Printing_Maint..fontsize(8)
+gui.F_WO_Printing_Maint..forecolor(0)
+gui.F_WO_Printing_Maint..fontstyle(,,,,)
+gui.F_WO_Printing_Maint..BackColor(-2147483633)
+gui.F_WO_Printing_Maint..controlbox(True)
+gui.F_WO_Printing_Maint..maxbutton(True)
+gui.F_WO_Printing_Maint..minbutton(True)
+gui.F_WO_Printing_Maint..mousepointer(0)
+gui.F_WO_Printing_Maint..moveable(True)
+gui.F_WO_Printing_Maint..sizeable(False)
+gui.F_WO_Printing_Maint..ShowInTaskBar(True)
+gui.F_WO_Printing_Maint..titlebar(True)
+gui.F_WO_Printing_Maint.lstIgnore.create(listbox)
+gui.F_WO_Printing_Maint.lstIgnore.visible(True)
+gui.F_WO_Printing_Maint.lstIgnore.size(3330,5010)
+gui.F_WO_Printing_Maint.lstIgnore.zorder(0)
+gui.F_WO_Printing_Maint.lstIgnore.position(200,410)
+gui.F_WO_Printing_Maint.lstIgnore.enabled(True)
+gui.F_WO_Printing_Maint.lstIgnore.fontname("Arial")
+gui.F_WO_Printing_Maint.lstIgnore.fontsize(8)
+gui.F_WO_Printing_Maint.lstIgnore.event(dblclick,cmdremove_click)
+gui.F_WO_Printing_Maint.cmdSave.create(button)
+gui.F_WO_Printing_Maint.cmdSave.caption("Save")
+gui.F_WO_Printing_Maint.cmdSave.visible(True)
+gui.F_WO_Printing_Maint.cmdSave.size(1000,375)
+gui.F_WO_Printing_Maint.cmdSave.zorder(0)
+gui.F_WO_Printing_Maint.cmdSave.position(200,5500)
+gui.F_WO_Printing_Maint.cmdSave.enabled(True)
+gui.F_WO_Printing_Maint.cmdSave.fontname("Arial")
+gui.F_WO_Printing_Maint.cmdSave.fontsize(8)
+gui.F_WO_Printing_Maint.cmdSave.event(click,cmdsave_click)
+gui.F_WO_Printing_Maint.cmdAdd.create(button)
+gui.F_WO_Printing_Maint.cmdAdd.caption("<-")
+gui.F_WO_Printing_Maint.cmdAdd.visible(True)
+gui.F_WO_Printing_Maint.cmdAdd.size(300,300)
+gui.F_WO_Printing_Maint.cmdAdd.zorder(0)
+gui.F_WO_Printing_Maint.cmdAdd.position(3700,2400)
+gui.F_WO_Printing_Maint.cmdAdd.enabled(True)
+gui.F_WO_Printing_Maint.cmdAdd.fontname("Arial")
+gui.F_WO_Printing_Maint.cmdAdd.fontsize(8)
+gui.F_WO_Printing_Maint.cmdAdd.event(click,cmdadd_click)
+gui.F_WO_Printing_Maint.cmdRemove.create(button)
+gui.F_WO_Printing_Maint.cmdRemove.caption("->")
+gui.F_WO_Printing_Maint.cmdRemove.visible(True)
+gui.F_WO_Printing_Maint.cmdRemove.size(300,300)
+gui.F_WO_Printing_Maint.cmdRemove.zorder(0)
+gui.F_WO_Printing_Maint.cmdRemove.position(3700,3000)
+gui.F_WO_Printing_Maint.cmdRemove.enabled(True)
+gui.F_WO_Printing_Maint.cmdRemove.fontname("Arial")
+gui.F_WO_Printing_Maint.cmdRemove.fontsize(8)
+gui.F_WO_Printing_Maint.cmdRemove.event(click,cmdremove_click)
+gui.F_WO_Printing_Maint.lstWC.create(listbox)
+gui.F_WO_Printing_Maint.lstWC.visible(True)
+gui.F_WO_Printing_Maint.lstWC.size(3330,5010)
+gui.F_WO_Printing_Maint.lstWC.zorder(0)
+gui.F_WO_Printing_Maint.lstWC.position(4200,410)
+gui.F_WO_Printing_Maint.lstWC.enabled(True)
+gui.F_WO_Printing_Maint.lstWC.fontname("Arial")
+gui.F_WO_Printing_Maint.lstWC.fontsize(8)
+gui.F_WO_Printing_Maint.lstWC.event(dblclick,cmdadd_click)
+gui.F_WO_Printing_Maint.lblCurrent.create(label,"Ignore During Printing",True,1935,255,1,200,200,True,0,Arial,8,-2147483633,0)
+gui.F_WO_Printing_Maint.lblWCs.create(label,"Available Work Centers",True,1935,255,1,4200,200,True,0,Arial,8,-2147483633,0)
+gui.F_WO_Printing_Maint.lstWG.create(listbox)
+gui.F_WO_Printing_Maint.lstWG.visible(True)
+gui.F_WO_Printing_Maint.lstWG.size(3330,5010)
+gui.F_WO_Printing_Maint.lstWG.zorder(0)
+gui.F_WO_Printing_Maint.lstWG.position(7700,400)
+gui.F_WO_Printing_Maint.lstWG.enabled(True)
+gui.F_WO_Printing_Maint.lstWG.fontname("Arial")
+gui.F_WO_Printing_Maint.lstWG.fontsize(8)
+gui.F_WO_Printing_Maint.lstWG.event(dblclick,lstwg_dblclick_add)
+gui.F_WO_Printing_Maint.lbl_WG.create(label,"Available Work Groups",True,1935,255,1,7700,200,True,0,Arial,8,-2147483633,0)
+
+
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+
+Variable.UDT.NoPrintWC.Define("WC_ID",Long,"WC_ID")
+Variable.UDT.NoPrintWC.Define("WC_Name",String,"WC_Name")
+Variable.UDT.NoPrintWC.Define("WG",String,"WG")
+Variable.UDT.NoPrintWC.Define("WG_Desc",String,"Description")
+Variable.UDT.NoPrintWC.Define("Full_WG",Boolean,"Full_WG_Incl")
+Variable.uGlobal.uNoPrint.Declare("NoPrintWC")
+
+Variable.UDT.WC.Define("Machine",String,"Machine")
+Variable.UDT.WC.Define("WC_Name",String,"WC_Name")
+Variable.UDT.WC.Define("Workgroup",String,"Workgroup")
+Variable.UDT.WC.Define("WG_Desc",String)
+Variable.uGlobal.uWCs.Declare("WC")
+
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+F.Intrinsic.Control.SetErrorHandler("Main_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Global.sWC.Declare(String)
+V.Global.sIgnore.Declare(String)
+V.Global.sWGs.Declare(String)
+
+F.ODBC.Connection!conX.OpenConnection(V.Ambient.PDSN,V.Ambient.PUser,V.Ambient.PPass)
+F.Intrinsic.Control.CallSub(Load_lists)
+
+Gui.F_WO_Printing_Maint..Show
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Main_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_3793_Selective_WO_Printing_Maint.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.Main.End
+
+program.sub.f_wo_printing_maint_unload.start
+F.Intrinsic.Control.SetErrorHandler("f_wo_printing_maint_unload_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+F.ODBC.Connection!conX.Close
+F.Intrinsic.Control.End
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("f_wo_printing_maint_unload_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_Selective_WO_Printing_Maint.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+program.sub.f_wo_printing_maint_unload.End
+
+program.sub.cmdadd_click.start
+F.Intrinsic.Control.SetErrorHandler("cmdadd_click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sWC.Declare(String)
+V.Local.sWG.Declare(String)
+V.Local.sDesc.Declare(String)
+V.Local.sReturn.Declare(String)
+V.Local.iC.Declare(Long)
+
+F.Intrinsic.Control.If(V.Screen.F_WO_Printing_Maint!lstWG.ListIndex,<>,-1)
+	F.Intrinsic.Control.CallSub(Lstwg_dblclick_add)
+	F.Intrinsic.Control.ExitSub
+F.Intrinsic.Control.ElseIf(V.Screen.F_WO_Printing_Maint!lstWC.ListIndex,=,-1)
+	F.Intrinsic.Control.ExitSub
+F.Intrinsic.Control.EndIf
+
+V.Local.sWC.Set(V.uGlobal.uWCs(V.Screen.F_WO_Printing_Maint!lstWC.ListIndex)!WC_Name)
+V.Local.sWG.Set(V.uGlobal.uWCs(V.Screen.F_WO_Printing_Maint!lstWC.ListIndex)!Workgroup)
+V.Local.sDesc.Set(V.uGlobal.uWCs(V.Screen.F_WO_Printing_Maint!lstWC.ListIndex)!WG_Desc)
+
+F.Intrinsic.Variable.UDTMultiFlag(V.uGlobal.uWCs!WC_Name,V.Local.sWC)
+F.Intrinsic.Variable.UDTDeleteFlagged(V.uGlobal.uWCs)
+
+F.Intrinsic.Math.Add(V.uGlobal.uNoPrint.UBound,1,V.Local.iC)
+F.Intrinsic.Control.If(V.Local.iC,=,0)
+	V.uGlobal.uNoPrint.Redim(0,0)
+F.Intrinsic.Control.Else
+	V.uGlobal.uNoPrint.RedimPreserve(0,V.Local.iC)
+F.Intrinsic.Control.EndIf
+V.uGlobal.uNoPrint(V.Local.iC)!WC_Name.Set(V.Local.sWC)
+V.uGlobal.uNoPrint(V.Local.iC)!WG.Set(V.Local.sWG)
+V.uGlobal.uNoPrint(V.Local.iC)!WG_Desc.Set(V.Local.sDesc)
+V.uGlobal.uNoPrint(V.Local.iC)!WC_ID.Set(-1)
+F.Intrinsic.Variable.UDTMultiQuickSort(V.uGlobal.uNoPrint!WC_Name,0)
+
+Gui.F_WO_Printing_Maint.lstIgnore.ClearItems
+Gui.F_WO_Printing_Maint.lstWC.ClearItems
+
+F.Intrinsic.Control.For(V.Local.iC,0,V.uGlobal.uNoPrint.UBound,1)
+	Gui.F_WO_Printing_Maint.lstIgnore.AddItem(V.uGlobal.uNoPrint(V.Local.iC)!WC_Name)
+F.Intrinsic.Control.Next(V.Local.iC)
+
+F.Intrinsic.Control.For(V.Local.iC,0,V.uGlobal.uWCs.UBound,1)
+	F.Intrinsic.Variable.UDTSeek(V.uGlobal.uNoPrint!WC_Name,V.uGlobal.uWCs(V.Local.iC)!WC_Name,0,V.Local.sReturn)
+	F.Intrinsic.Control.If(V.Local.sReturn,=,"")
+		Gui.F_WO_Printing_Maint.lstWC.AddItem(V.uGlobal.uWCs(V.Local.iC)!WC_Name)
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.Next(V.Local.iC)
+
+Gui.F_WO_Printing_Maint.lstWC.ListIndex(-1)
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmdadd_click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_3793_Selective_WO_Printing_Maint.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+program.sub.cmdadd_click.End
+
+program.sub.cmdremove_click.start
+F.Intrinsic.Control.SetErrorHandler("cmdremove_click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sWC.Declare(String)
+V.Local.sReturn.Declare(String)
+V.Local.sWG.Declare(String)
+V.Local.sDesc.Declare(String)
+V.Local.iC.Declare(Long)
+
+V.Local.sWC.Set(V.uGlobal.uNoPrint(V.Screen.F_WO_Printing_Maint!lstIgnore.ListIndex)!WC_Name)
+V.Local.sWG.Set(V.uGlobal.uNoPrint(V.Screen.F_WO_Printing_Maint!lstIgnore.ListIndex)!WG)
+V.Local.sDesc.Set(V.uGlobal.uNoPrint(V.Screen.F_WO_Printing_Maint!lstIgnore.ListIndex)!WG_Desc)
+F.Intrinsic.Variable.UDTMultiFlag(V.uGlobal.uNoPrint!WC_Name,V.Local.sWC)
+F.Intrinsic.Variable.UDTDeleteFlagged(V.uGlobal.uNoPrint)
+
+F.Intrinsic.Math.Add(V.uGlobal.uWCs.UBound,1,V.Local.iC)
+V.uGlobal.uWCs.RedimPreserve(0,V.Local.iC)
+V.uGlobal.uWCs(V.Local.iC)!WC_Name.Set(V.Local.sWC)
+V.uGlobal.uWCs(V.Local.iC)!Workgroup.Set(V.Local.sWG)
+V.uGlobal.uWCs(V.Local.iC)!WG_Desc.Set(V.Local.sDesc)
+V.uGlobal.uWCs(V.Local.iC)!Machine.Set(-1)
+F.Intrinsic.Variable.UDTMultiQuickSort(V.uGlobal.uWCs!WC_Name,0)
+
+Gui.F_WO_Printing_Maint.lstIgnore.ClearItems
+Gui.F_WO_Printing_Maint.lstWC.ClearItems
+
+F.Intrinsic.Control.For(V.Local.iC,0,V.uGlobal.uNoPrint.UBound,1)
+	Gui.F_WO_Printing_Maint.lstIgnore.AddItem(V.uGlobal.uNoPrint(V.Local.iC)!WC_Name)
+F.Intrinsic.Control.Next(V.Local.iC)
+
+F.Intrinsic.Control.For(V.Local.iC,0,V.uGlobal.uWCs.UBound,1)
+	F.Intrinsic.Variable.UDTSeek(V.uGlobal.uNoPrint!WC_Name,V.uGlobal.uWCs(V.Local.iC)!WC_Name,0,V.Local.sReturn)
+	F.Intrinsic.Control.If(V.Local.sReturn,=,"")
+		Gui.F_WO_Printing_Maint.lstWC.AddItem(V.uGlobal.uWCs(V.Local.iC)!WC_Name)
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.Next(V.Local.iC)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmdremove_click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_3793_Selective_WO_Printing_Maint.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+program.sub.cmdremove_click.End
+
+program.sub.cmdsave_click.start
+F.Intrinsic.Control.SetErrorHandler("cmdsave_click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sReturn.Declare(String)
+V.Local.iC.Declare(Long)
+V.Local.iTemp.Declare(Long)
+V.Local.iID.Declare(Long)
+
+F.Intrinsic.Control.For(V.Local.iC,0,V.uGlobal.uNoPrint.UBound,1)
+	F.Intrinsic.Math.Add(V.Local.iC,1,V.Local.iID)
+	V.uGlobal.uNoPrint(V.Local.iC)!WC_ID.Set(V.Local.iID)
+
+	F.Intrinsic.Control.If(V.uGlobal.uNoPrint(V.Local.iC)!WG,<>,"")
+		F.Intrinsic.Variable.UDTSeek(V.uGlobal.uWCs!Workgroup,V.uGlobal.uNoPrint(V.Local.iC)!WG,0,V.Local.sReturn)
+		F.Intrinsic.Control.If(V.Local.sReturn,<>,"")
+			V.uGlobal.uNoPrint(V.Local.iC)!Full_WG.set(False)
+		F.Intrinsic.Control.Else
+			V.uGlobal.uNoPrint(V.Local.iC)!Full_WG.set(True)
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.Next(V.Local.iC)
+
+F.ODBC.Connection!conX.Execute("DELETE FROM ATG_3793_Noprint_Wcs")
+F.ODBC.Connection!conX.OpenRecordsetRW("rst","SELECT * FROM ATG_3793_NOPRINT_WCS")
+	F.Intrinsic.Variable.SaveUDTToRecordset("conX","rst","V.uGlobal.uNoPrint")
+F.ODBC.conX!rst.Close
+
+F.Intrinsic.UI.Msgbox("Workcenters saved.")
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmdsave_click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_3793_Selective_WO_Printing_Maint.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+program.sub.cmdsave_click.End
+
+Program.Sub.load_lists.Start
+F.Intrinsic.Control.SetErrorHandler("load_lists_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sReturn.Declare(String)
+V.Local.iC.Declare(String)
+
+Gui.F_WO_Printing_Maint.lstIgnore.ClearItems
+Gui.F_WO_Printing_Maint.lstWC.ClearItems
+
+F.ODBC.Connection!conX.OpenRecordsetRO("rstWC","SELECT * FROM ATG_3793_Noprint_Wcs ORDER BY WC_Name")
+F.Intrinsic.Control.If(V.ODBC.conX!rstWC.EOF,<>,True)
+	V.uGlobal.uNoPrint.Redim(0,0)
+	F.Intrinsic.Variable.LoadUDTFromRecordset("conX","rstWC","V.uGlobal.uNoPrint",False)
+F.Intrinsic.Control.Else
+	V.uGlobal.uNoPrint.Redim(-1,-1)
+F.Intrinsic.Control.EndIf
+F.ODBC.conX!rstWC.Close
+
+F.ODBC.Connection!conX.OpenRecordsetRO("rstWC","select WORKGROUP_LINE.workgroup, WORKCENTERS.machine, WORKCENTERS.wc_name from WORKGROUP_LINE right join WORKCENTERS on workgroup_line.workcenter = workcenters.machine order by wc_name")
+F.Intrinsic.Control.If(V.ODBC.conX!rstWC.EOF,<>,True)
+	V.uGlobal.uWCs.Redim(0,0)
+	F.Intrinsic.Variable.LoadUDTFromRecordset("conX","rstWC","V.uGlobal.uWCs",False)
+F.Intrinsic.Control.Else
+	V.uGlobal.uWCs.Redim(-1,-1)
+F.Intrinsic.Control.EndIf
+F.ODBC.conX!rstWC.Close
+
+F.ODBC.Connection!conX.OpenRecordsetRO("rstWG","select work_group, descr from WORKGROUP_HEAD order by work_group")
+F.Intrinsic.Control.If(V.ODBC.conX!rstWG.EOF,<>,True)
+	F.Intrinsic.Control.DoUntil(V.ODBC.conX!rstWG.EOF,=,True)
+		F.Intrinsic.String.Concat(V.Global.sWGs,V.ODBC.conX!rstWG.FieldValTrim!WORK_GROUP,"*!*",V.Global.sWGs)
+		F.Intrinsic.Variable.UDTSeek(V.uGlobal.uWCs!Workgroup,V.ODBC.conX!rstWG.FieldValTrim!WORK_GROUP,0,V.Local.sReturn)
+		F.Intrinsic.Control.If(V.Local.sReturn,<>,"")
+			F.Intrinsic.String.Split(V.Local.sReturn,"*!*",V.Local.sReturn)
+			F.Intrinsic.Control.For(V.Local.iC,0,V.Local.sReturn.UBound,1)
+				V.uGlobal.uWCs(V.Local.sReturn(V.Local.iC))!WG_Desc.Set(V.ODBC.conX!rstWG.FieldValTrim!DESCR)
+			F.Intrinsic.Control.Next(V.Local.iC)
+		F.Intrinsic.Control.EndIf
+		F.ODBC.conX!rstWG.MoveNext
+	F.Intrinsic.Control.Loop
+F.Intrinsic.Control.EndIf
+F.ODBC.conX!rstWG.Close
+
+F.Intrinsic.Control.If(V.Global.sWGs,<>,"")
+	F.Intrinsic.String.Split(V.Global.sWGs,"*!*",V.Global.sWGs)
+	F.Intrinsic.Math.Sub(V.Global.sWGs.UBound,1,V.Local.iC)
+	V.Global.sWGs.RedimPreserve(0,V.Local.iC)
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.For(V.Local.iC,0,V.uGlobal.uNoPrint.UBound,1)
+	Gui.F_WO_Printing_Maint.lstIgnore.AddItem(V.uGlobal.uNoPrint(V.Local.iC)!WC_Name)
+	F.Intrinsic.Variable.UDTMultiFlag(V.uGlobal.uWCs!WC_Name,V.uGlobal.uNoPrint(V.Local.iC)!WC_Name)
+	F.Intrinsic.Variable.UDTDeleteFlagged(V.uGlobal.uWCs)
+F.Intrinsic.Control.Next(V.Local.iC)
+
+F.Intrinsic.Control.For(V.Local.iC,0,V.uGlobal.uWCs.UBound,1)
+	F.Intrinsic.Variable.UDTSeek(V.uGlobal.uNoPrint!WC_Name,V.uGlobal.uWCs(V.Local.iC)!WC_Name,0,V.Local.sReturn)
+	F.Intrinsic.Control.If(V.Local.sReturn,=,"")
+		Gui.F_WO_Printing_Maint.lstWC.AddItem(V.uGlobal.uWCs(V.Local.iC)!WC_Name,V.Local.ic)
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.Next(V.Local.iC)
+
+F.Intrinsic.Control.For(V.Local.iC,0,V.Global.sWGs.UBound,1)
+	Gui.F_WO_Printing_Maint.lstWG.AddItem(V.Global.sWGs(V.Local.iC))
+F.Intrinsic.Control.Next(V.Local.iC)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("load_lists_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_3793_Selective_WO_Printing_Maint.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.load_lists.End
+
+program.sub.lstwg_dblclick_add.start
+F.Intrinsic.Control.SetErrorHandler("lstwg_dblclick_add_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sWG.Declare(String)
+V.Local.sWC.Declare(String)
+V.Local.sDesc.Declare(String)
+V.Local.sReturn.Declare(String)
+V.Local.iC.Declare(Long)
+V.Local.iTemp.Declare(Long)
+V.Local.iMax.Declare(Long)
+
+V.Local.sWG.Set(V.Global.sWGs(V.Screen.F_WO_Printing_Maint!lstWG.ListIndex))
+F.Intrinsic.String.Trim(V.Local.sWG,V.Local.sWG)
+F.Intrinsic.Variable.UDTSeek(V.uGlobal.uWCs!Workgroup,V.Local.sWG,0,V.Local.sReturn)
+F.Intrinsic.Control.If(V.Local.sReturn,<>,"")
+	F.Intrinsic.String.Split(V.Local.sReturn,"*!*",V.Local.sReturn)
+	V.Local.iMax.Set(V.Local.sReturn.UBound)
+	F.Intrinsic.Control.For(V.Local.iC,0,V.Local.iMax,1)
+		F.Intrinsic.Variable.UDTSeek(V.uGlobal.uWCs!Workgroup,V.Local.sWG,0,V.Local.sReturn)
+		F.Intrinsic.String.Split(V.Local.sReturn,"*!*",V.Local.sReturn)
+		V.Local.sWC.Set(V.uGlobal.uWCs(V.Local.sReturn(0))!WC_Name)
+		V.Local.sDesc.Set(V.uGlobal.uWCs(V.Local.sReturn(0))!WG_Desc)
+		F.Intrinsic.Variable.UDTMultiFlag(V.uGlobal.uWCs!WC_Name,V.Local.sWC)
+		F.Intrinsic.Variable.UDTDeleteFlagged(V.uGlobal.uWCs)
+
+		F.Intrinsic.Math.Add(V.uGlobal.uNoPrint.UBound,1,V.Local.iTemp)
+		F.Intrinsic.Control.If(V.Local.iTemp,=,0)
+			V.uGlobal.uNoPrint.Redim(0,0)
+		F.Intrinsic.Control.Else
+			V.uGlobal.uNoPrint.RedimPreserve(0,V.Local.iTemp)
+		F.Intrinsic.Control.EndIf
+		V.uGlobal.uNoPrint(V.Local.iTemp)!WC_Name.Set(V.Local.sWC)
+		V.uGlobal.uNoPrint(V.Local.iTemp)!WG.Set(V.Local.sWG)
+		V.uGlobal.uNoPrint(V.Local.iTemp)!WG_Desc.Set(V.Local.sDesc)
+		V.uGlobal.uNoPrint(V.Local.iTemp)!WC_ID.Set(-1)
+		F.Intrinsic.Variable.UDTMultiQuickSort(V.uGlobal.uNoPrint!WC_Name,0)
+
+		Gui.F_WO_Printing_Maint.lstIgnore.ClearItems
+		Gui.F_WO_Printing_Maint.lstWC.ClearItems
+
+		F.Intrinsic.Control.For(V.Local.iTemp,0,V.uGlobal.uNoPrint.UBound,1)
+			Gui.F_WO_Printing_Maint.lstIgnore.AddItem(V.uGlobal.uNoPrint(V.Local.iTemp)!WC_Name)
+		F.Intrinsic.Control.Next(V.Local.iTemp)
+
+		F.Intrinsic.Control.For(V.Local.iTemp,0,V.uGlobal.uWCs.UBound,1)
+			F.Intrinsic.Variable.UDTSeek(V.uGlobal.uNoPrint!WC_Name,V.uGlobal.uWCs(V.Local.iTemp)!WC_Name,0,V.Local.sReturn)
+			F.Intrinsic.Control.If(V.Local.sReturn,=,"")
+				Gui.F_WO_Printing_Maint.lstWC.AddItem(V.uGlobal.uWCs(V.Local.iTemp)!WC_Name)
+			F.Intrinsic.Control.EndIf
+		F.Intrinsic.Control.Next(V.Local.iTemp)
+	F.Intrinsic.Control.Next(V.Local.iC)
+F.Intrinsic.Control.Else
+	F.Intrinsic.UI.Msgbox("No associated workcenters were found for this workgroup.")
+	Gui.F_WO_Printing_Maint.lstWG.ListIndex(-1)
+	F.Intrinsic.Control.ExitSub
+F.Intrinsic.Control.EndIf
+
+Gui.F_WO_Printing_Maint.lstWG.ListIndex(-1)
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("lstwg_dblclick_add_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_3793_Selective_WO_Printing_Maint.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+program.sub.lstwg_dblclick_add.End
+
+Program.Sub.Comments.Start
+${$0$}$$}$$}$12:00:00 AM$}$False
+Program.Sub.Comments.End
